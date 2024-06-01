@@ -2,7 +2,7 @@ import numpy as np
 from model import *
 
 
-class Hierarchical(CluseterModel):
+class Hierarchical(ClusterModel):
     
     def single_linkage(A,B):
         return [0.5,0.5,0,-0.5]
@@ -26,6 +26,7 @@ class Hierarchical(CluseterModel):
         self.dist=getattr(self,dist,None)
         self.linkage=Hierarchical.linkage_table[linkage]
         self.no_clusters=no_clusters
+        self.signature=f'{self.__class__.__name__}({linkage})'
     
     def euclid(self,X,Y):
         return np.linalg.norm(X-Y)

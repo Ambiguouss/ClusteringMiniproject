@@ -1,12 +1,13 @@
 import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
 
-class CluseterModel:
+class ClusterModel:
     def cluster(self,X):
         pass
 
-    def clusters_to_classes(self,clusters,classes):
+    def clusters_to_classes(clusters,classes):
         #we assume number of clusters==no classes
         n=np.unique(clusters).size
         G = nx.Graph()
@@ -24,18 +25,17 @@ class CluseterModel:
             res+=weight
         return res/clusters.size
 
-    def plot(X,Y):
-        colors=["red","blue","green","yellow"]
+    def plot(self,X,Y):
         k=np.unique(Y).size
+        colors = list(mcolors.TABLEAU_COLORS.keys())[:k]
         C=[]
         for i in range(k):
             C.append(X[Y==i])
         for i in range(k):
-            plt.scatter(C[i][:, 0], C[i][:, 1], color=colors[i], label='0')
-        plt.legend()
+            plt.scatter(C[i][:, 0], C[i][:, 1], color=colors[i])
         plt.xlabel('X axis')
         plt.ylabel('Y axis')
-        plt.title('2D Points with Different Colors Based on Labels')
+        plt.title(self.signature)
         
         # Show the plot
         plt.show()
