@@ -51,12 +51,16 @@ class Spectral(ClusterModel):
         return 1/(d)
     def gauss(X,Y,dist):
         d=dist(X,Y)
-        return np.exp(-d**2/2)
+        return np.exp(-(d**2)/2)
 
     def weight_factory(self,weight_function,dist):
         if weight_function=='inverse':
             def fun(X,Y):
                 return Spectral.inverse(X,Y,dist)
+            return fun
+        if weight_function=="gauss":
+            def fun(X,Y):
+                return Spectral.gauss(X,Y,dist)
             return fun
         return None
 
