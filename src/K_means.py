@@ -32,6 +32,8 @@ class K_means(ClusterModel):
             ind=np.random.choice(X.shape[0], k, replace=False)
             mi=X[ind]
             clusters,cent=self._cluster(X,mi)
+            if clusters is None:
+                continue
             eval=self.evaluate(clusters,cent,X)
             if eval<best_eval:
                 best_res=clusters
@@ -54,6 +56,8 @@ class K_means(ClusterModel):
                 assignment[ind]=j
             newmi=np.empty((k,m))
             for i in range(k):
+                if len(clusters[i])==0:
+                    return None,None
                 newmi[i]=np.mean(clusters[i],axis=0)
             #newmi=np.array([np.apply_along_axis(np.mean,0,clusters[i]) for i in range(k)])
             if self.dist(newmi,mi)<self.eps:

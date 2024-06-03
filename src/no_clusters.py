@@ -20,7 +20,7 @@ dane_path =os.path.join(project_dir, "dane", f'dane_2D_{set}.txt')
 data=np.loadtxt(dane_path)
 
 X,Y=prepare2D(data)
-n=X.shape[0]//50
+n=X.shape[0]//20
 eval_table=[]
 for i in range(1,n):
     M=K_means(no_clusters=i,no_iter=10)
