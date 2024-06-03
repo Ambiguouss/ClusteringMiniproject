@@ -1,6 +1,7 @@
 import numpy as np
 import os
 import argparse
+import time
 from model import *
 from Hierarchical import *
 from prepare import *
@@ -36,10 +37,12 @@ elif model_name=="Spectral":
 elif model_name=="K-means":
     M=K_means(no_clusters=clus,no_iter=args.iter,eps=args.eps)
 X,Y=preparerp(rpdate)
-#M=Spectral(no_clusters=np.unique(Y).size,graph_type="epsi",eps=5,weight_function="inverse")
 
+start_time=time.time()
 res=M.cluster(X)
-print(ClusterModel.clusters_to_classes(res,Y))
+end_time=time.time()
+print(f'Time: {end_time-start_time}s\nAcc: {ClusterModel.clusters_to_classes(res,Y)}')
+
 #hier = Hierarchical(no_clusters=np.unique(Y).size,linkage="Ward")
 #res = hier.cluster(X)
 #print(ClusterModel.clusters_to_classes(res,Y))
