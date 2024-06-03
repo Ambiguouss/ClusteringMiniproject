@@ -8,7 +8,7 @@ from scipy.linalg import sqrtm
 
 class Spectral(ClusterModel):
     
-    def __init__(self,no_clusters=2,dist="euclid",graph_type='epsi',weight_function='inverse',eps=None,neighbour=None):
+    def __init__(self,no_clusters=2,dist="euclid",graph_type='full',weight_function='inverse',eps=None,neighbour=None):
         self.dist=getattr(Spectral,dist,None)
         self.no_clusters=no_clusters
         self.weight_function=self.weight_factory(weight_function,self.dist)

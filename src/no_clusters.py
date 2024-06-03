@@ -16,13 +16,14 @@ args=parser.parse_args()
 set=args.set
 output_directory=args.dir
 project_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-dane_path =os.path.join(project_dir, "dane", f'dane_2D_{set}.txt')
+dane_path =os.path.join(project_dir, "dane", f'data_18D.txt')
 data=np.loadtxt(dane_path)
 
 X,Y=prepare2D(data)
-n=X.shape[0]//20
+n=10
 eval_table=[]
 for i in range(1,n):
+    print(i)
     M=K_means(no_clusters=i,no_iter=10)
     res,eval=M.cluster(X,ret_eval=True)
     eval_table.append(eval)
@@ -35,6 +36,6 @@ plt.ylabel('eval')
 plt.xticks(range(1, n))
 output_path = os.path.join(output_directory, 'elbow.png')
 
-plt.savefig(output_path)
+plt.show()
 
 

@@ -2,6 +2,7 @@ import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
+import colorsys
 
 class ClusterModel:
     def cluster(self,X):
@@ -27,7 +28,8 @@ class ClusterModel:
 
     def plot(self,X,Y,save=None):
         k=np.unique(Y).size
-        colors = list(mcolors.TABLEAU_COLORS.keys())[:k]
+        hues = [(i/k, 1.0, 1.0) for i in range(k)]
+        colors = [colorsys.hsv_to_rgb(*h) for h in hues]
         C=[]
         for i in range(k):
             C.append(X[Y==i])
