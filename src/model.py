@@ -25,7 +25,7 @@ class ClusterModel:
             res+=weight
         return res/clusters.size
 
-    def plot(self,X,Y):
+    def plot(self,X,Y,save=None):
         k=np.unique(Y).size
         colors = list(mcolors.TABLEAU_COLORS.keys())[:k]
         C=[]
@@ -38,4 +38,7 @@ class ClusterModel:
         plt.title(self.signature)
         
         # Show the plot
-        plt.show()
+        if save is None:
+            plt.show()
+        else:
+            plt.savefig(save)

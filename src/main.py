@@ -10,15 +10,14 @@ from Spectral import *
 
 
 project_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-data_path = os.path.join(project_dir, "dane", "data_18D.txt")
-dane_2D_1_path =os.path.join(project_dir, "dane", "dane_2D_8.txt")
-rpdate_path = os.path.join(project_dir, "dane", "rp.data")
-data=np.loadtxt(dane_2D_1_path)
-rpdate=np.loadtxt(rpdate_path)
+
+
+
 
 
 
 parser = argparse.ArgumentParser()
+parser.add_argument('--set',type=int,default=1,help="set")
 parser.add_argument('--model', type=str, default="Hierarchical",help='model')
 parser.add_argument('--clusters', type=int, default=2,help='C')
 parser.add_argument('--link', type=str, default=None,help='C')
@@ -26,10 +25,14 @@ parser.add_argument('--graph_type', type=str, default='full',help='C')
 parser.add_argument('--eps', type=float, default=0.001,help='C')
 parser.add_argument('--weight', type=str, default='inverse',help='C')
 parser.add_argument('--iter', type=int, default=10,help='C')
+parser.add_argument('--dir', type=str, default="results/dane_2D/acc/",help='dir')
 args=parser.parse_args()
 model_name=args.model
 clus=args.clusters
 link=args.link
+dane_path =os.path.join(project_dir, "dane", f'dane_2D_{args.set}.txt')
+data=np.loadtxt(dane_path)
+
 if model_name=="Hierarchical":
     M=Hierarchical(no_clusters=clus,linkage=link)
 elif model_name=="Spectral":
@@ -43,7 +46,7 @@ start_time=time.time()
 res=M.cluster(X)
 end_time=time.time()
 print(f'Time: {end_time-start_time}s\nAcc: {ClusterModel.clusters_to_classes(res,Y)}')
-M.plot(X,res)
+M.plot(X,res,save=args.dir)
 #hier = Hierarchical(no_clusters=np.unique(Y).size,linkage="Ward")
 #res = hier.cluster(X)
 #print(ClusterModel.clusters_to_classes(res,Y))
