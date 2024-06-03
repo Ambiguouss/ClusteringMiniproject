@@ -23,7 +23,7 @@ parser.add_argument('--model', type=str, default="Hierarchical",help='model')
 parser.add_argument('--clusters', type=int, default=2,help='C')
 parser.add_argument('--link', type=str, default=None,help='C')
 parser.add_argument('--graph_type', type=str, default='full',help='C')
-parser.add_argument('--eps', type=int, default=0.001,help='C')
+parser.add_argument('--eps', type=float, default=0.001,help='C')
 parser.add_argument('--weight', type=str, default='inverse',help='C')
 parser.add_argument('--iter', type=int, default=10,help='C')
 args=parser.parse_args()
@@ -36,7 +36,7 @@ elif model_name=="Spectral":
     M=Spectral(no_clusters=clus,graph_type=args.graph_type,eps=args.eps,weight_function=args.weight)
 elif model_name=="K-means":
     M=K_means(no_clusters=clus,no_iter=args.iter,eps=args.eps)
-X,Y=preparerp(rpdate)
+X,Y=preparerp(data)
 
 start_time=time.time()
 res=M.cluster(X)

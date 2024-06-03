@@ -21,7 +21,7 @@ class K_means(ClusterModel):
             res+=self.dist(X[i],cent[clusters[i]])**2
         return res
 
-    def cluster(self,X_in):
+    def cluster(self,X_in,ret_eval=False):
         X_min = np.min(X_in,axis=0)
         X_max = np.max(X_in,axis=0)
         X=(X_in-X_min)/(X_max-X_min)
@@ -36,6 +36,8 @@ class K_means(ClusterModel):
             if eval<best_eval:
                 best_res=clusters
                 best_eval=eval
+        if ret_eval:
+            return best_res,best_eval
         return best_res
             
 
