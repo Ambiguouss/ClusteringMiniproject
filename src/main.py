@@ -32,21 +32,21 @@ clus=args.clusters
 link=args.link
 dane_path =os.path.join(project_dir, "dane", f'dane_2D_{args.set}.txt')
 data=np.loadtxt(dane_path)
-
+X,Y=prepare2D(data)
+c=np.unique(Y).size
 if model_name=="Hierarchical":
-    M=Hierarchical(no_clusters=clus,linkage=link)
+    M=Hierarchical(no_clusters=c,linkage=link)
 elif model_name=="Spectral":
-    M=Spectral(no_clusters=clus,graph_type=args.graph_type,eps=args.eps,weight_function=args.weight)
+    M=Spectral(no_clusters=c,graph_type=args.graph_type,eps=args.eps,weight_function=args.weight)
 elif model_name=="K-means":
-    M=K_means(no_clusters=clus,no_iter=args.iter,eps=args.eps)
+    M=K_means(no_clusters=c,no_iter=args.iter,eps=args.eps)
 
-X,Y=preparerp(data)
 
 start_time=time.time()
 res=M.cluster(X)
 end_time=time.time()
 print(f'Time: {end_time-start_time}s\nAcc: {ClusterModel.clusters_to_classes(res,Y)}')
-M.plot(X,res,save=args.dir)
+#M.plot(X,res,save=args.dir)
 #hier = Hierarchical(no_clusters=np.unique(Y).size,linkage="Ward")
 #res = hier.cluster(X)
 #print(ClusterModel.clusters_to_classes(res,Y))
