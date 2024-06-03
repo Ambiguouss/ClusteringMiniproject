@@ -36,13 +36,14 @@ elif model_name=="Spectral":
     M=Spectral(no_clusters=clus,graph_type=args.graph_type,eps=args.eps,weight_function=args.weight)
 elif model_name=="K-means":
     M=K_means(no_clusters=clus,no_iter=args.iter,eps=args.eps)
+
 X,Y=preparerp(data)
 
 start_time=time.time()
 res=M.cluster(X)
 end_time=time.time()
 print(f'Time: {end_time-start_time}s\nAcc: {ClusterModel.clusters_to_classes(res,Y)}')
-
+M.plot(X,res)
 #hier = Hierarchical(no_clusters=np.unique(Y).size,linkage="Ward")
 #res = hier.cluster(X)
 #print(ClusterModel.clusters_to_classes(res,Y))

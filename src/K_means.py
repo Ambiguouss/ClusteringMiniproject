@@ -4,7 +4,7 @@ from model import *
 
 class K_means(ClusterModel):
     
-    def __init__(self,no_clusters=2,dist="euclid",no_iter=10,eps=0.001):
+    def __init__(self,no_clusters=2,dist="euclid",no_iter=10,eps=0.1):
         self.dist=getattr(self,dist,None)
         self.no_clusters=no_clusters
         self.eps=eps

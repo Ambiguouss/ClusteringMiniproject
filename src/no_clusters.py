@@ -9,59 +9,32 @@ from K_means import *
 from Spectral import *
 import matplotlib.pyplot as plt
 
-
+parser = argparse.ArgumentParser()
+parser.add_argument('--set', type=int, default=1,help='set')
+parser.add_argument('--dir', type=str, default="results/dane_2D/no_clusters/",help='dir')
+args=parser.parse_args()
+set=args.set
+output_directory=args.dir
 project_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-dane_2D_1_path =os.path.join(project_dir, "dane", "dane_2D_8.txt")
-data=np.loadtxt(dane_2D_1_path)
-rpdate_path = os.path.join(project_dir, "dane", "rp.data")
-rpdate=np.loadtxt(rpdate_path)
-
-
-#parser = argparse.ArgumentParser()
-#parser.add_argument('--model', type=str, default="Hierarchical",help='model')
-#parser.add_argument('--clusters', type=int, default=2,help='C')
-#parser.add_argument('--link', type=str, default=None,help='C')
-#parser.add_argument('--graph_type', type=str, default='full',help='C')
-#parser.add_argument('--eps', type=float, default=0.001,help='C')
-#parser.add_argument('--weight', type=str, default='inverse',help='C')
-#parser.add_argument('--iter', type=int, default=10,help='C')
-#args=parser.parse_args()
-#model_name=args.model
-#clus=args.clusters
-#link=args.link
-#if model_name=="Hierarchical":
-#    M=Hierarchical(no_clusters=clus,linkage=link)
-#elif model_name=="Spectral":
-#    M=Spectral(no_clusters=clus,graph_type=args.graph_type,eps=args.eps,weight_function=args.weight)
-#elif model_name=="K-means":
-#    M=K_means(no_clusters=clus,no_iter=args.iter,eps=args.eps)
+dane_path =os.path.join(project_dir, "dane", f'dane_2D_{set}.txt')
+data=np.loadtxt(dane_path)
 
 X,Y=prepare2D(data)
+n=X.shape[0]//50
 eval_table=[]
-for i in range(2,10):
-    M=K_means(no_clusters=2)
+for i in range(1,n):
+    M=K_means(no_clusters=i,no_iter=10)
     res,eval=M.cluster(X,ret_eval=True)
     eval_table.append(eval)
 
 
-plt.plot(range(2, 10), eval_table)
+plt.plot(range(1, n), eval_table)
 plt.title('Elbow Method')
 plt.xlabel('Number of clusters')
 plt.ylabel('eval')
-plt.show()
+plt.xticks(range(1, n))
+output_path = os.path.join(output_directory, 'elbow.png')
 
-#hier = Hierarchical(no_clusters=np.unique(Y).size,linkage="Ward")
-#res = hier.cluster(X)
-#print(ClusterModel.clusters_to_classes(res,Y))
-#hier.plot(X,res)
-#print(res)
-#print(Y)
-#print(hier.clusters_to_classes(res,Y))
-#kmean=K_means(no_clusters=np.unique(Y).size,no_iter=10,eps=0.001)
-#res=kmean.cluster(X)
-#print(ClusterModel.clusters_to_classes(res,Y))
-#kmean.plot(X,res)
-#spec=Spectral(no_clusters=np.unique(Y).size,graph_type="full",eps=3,weight_function="gauss")
-#res=spec.cluster(X)
-#print(ClusterModel.clusters_to_classes(res,Y))
-#spec.plot(X,res)
+plt.savefig(output_path)
+
+
